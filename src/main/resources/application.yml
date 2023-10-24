@@ -51,7 +51,7 @@ mybatis-plus:
 
 oss:
   endPoint: https://oss-cn-beijing.aliyuncs.com
-  accessKeyId: LTAI5t7SYs1AzvQ9TrvqvrBW
-  accessKeySecret: d5iU3kjt4fYk6GyNxwZAP89C4WNfTn
+  accessKeyId: LTAI5tG3Te8jYQgqW32DThh1
+  accessKeySecret: DoQi2xSJdzEaa1izoL9n4ktCI0Lj3F
   bucketName: bistu-disaster
   filePrefix:
