@@ -98,6 +98,7 @@ public class UnifyCodeController {
         if (!save)
             throw new BusinessException(ErrorCode.INNER_ERROR, "插入灾情数据失败");
         return ResultUtils.success(true);
+
     }
 
 

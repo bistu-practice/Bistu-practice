@@ -17,7 +17,7 @@ public class JWTUtils {
     public static String header = "Authorization";
 
     //签名密钥
-    private static String secret = "ymcymcymc";
+    private static String secret = "1z2x3c4v5b";
 
     //有效期 1天
     private static long expireTime = 1000 * 60 * 60 * 24;

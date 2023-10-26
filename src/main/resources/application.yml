@@ -54,4 +54,4 @@ oss:
   accessKeyId: LTAI5tG3Te8jYQgqW32DThh1
   accessKeySecret: DoQi2xSJdzEaa1izoL9n4ktCI0Lj3F
   bucketName: bistu-disaster
-  filePrefix: content/
+  filePrefix: content
