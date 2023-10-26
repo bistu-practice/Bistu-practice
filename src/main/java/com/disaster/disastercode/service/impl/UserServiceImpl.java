@@ -20,9 +20,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 /**
- * @author 12639
+ * @author s2485523800
  * @description 针对表【user(用户表)】的数据库操作Service实现
- * @createDate 2022-11-07 17:13:12
+ * @createDate 2022-10-27 17:13:12
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>

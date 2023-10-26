@@ -14,9 +14,9 @@ import javax.annotation.Resource;
 import java.util.*;
 
 /**
- * @author 15693
+ * @author s2485523800
  * @description 针对表【detail_disaster】的数据库操作Service实现
- * @createDate 2022-11-07 17:21:56
+ * @createDate 2023-11-07 17:21:56
  */
 @Service
 public class DetailDisasterServiceImpl extends ServiceImpl<DetailDisasterMapper, DetailDisaster>

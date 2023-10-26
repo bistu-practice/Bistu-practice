@@ -9,9 +9,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import java.util.List;
 
 /**
-* @author 15693
+* @author s2485523800
 * @description 针对表【detail_disaster】的数据库操作Mapper
-* @createDate 2022-11-07 17:21:56
+* @createDate 2023-11-03 17:21:56
 * @Entity com.disaster.disastercode.model.domain.DetailDisaster
 */
 
