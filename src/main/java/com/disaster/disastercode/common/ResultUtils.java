@@ -19,7 +19,7 @@ public class ResultUtils {
         CustomPageDTO<T> pageDTO = new CustomPageDTO<>(page);
         return new BaseResponse<>(0, "ok", pageDTO);
     }
-    //返回错误对象,错误代码,message,descripton为“”
+    //返回错误对象,错误代码,message,description为“”
     public static BaseResponse<Null> error(ErrorCode errorCode) {
         return new BaseResponse<>(errorCode);
     }

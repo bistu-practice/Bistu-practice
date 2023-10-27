@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disaster.disastercode.mapper.OperlogDao">
+
+    <resultMap type="com.disaster.disastercode.model.domain.OperLog" id="OperlogMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="businessType" column="businessType" jdbcType="INTEGER"/>
+        <result property="method" column="method" jdbcType="VARCHAR"/>
+        <result property="requestMethod" column="requestMethod" jdbcType="VARCHAR"/>
+        <result property="operationPersonId" column="operationPersonId" jdbcType="INTEGER"/>
+        <result property="operationPersonName" column="operationPersonName" jdbcType="VARCHAR"/>
+        <result property="operationUrl" column="operationUrl" jdbcType="VARCHAR"/>
+        <result property="operationIp" column="operationIp" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="errorMsg" column="errorMsg" jdbcType="VARCHAR"/>
+        <result property="operationTime" column="operationTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="OperlogMap">
+        select
+            id,content,businessType,method,requestMethod,operationPersonId,operationPersonName,operationUrl,operationIp,status,errorMsg,operationTime
+        from operlog
+        where id = #{id}
+    </select>
+
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from operlog
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="businesstype != null">
+                and businessType = #{businesstype}
+            </if>
+            <if test="method != null and method != ''">
+                and method = #{method}
+            </if>
+            <if test="requestmethod != null and requestmethod != ''">
+                and requestMethod = #{requestmethod}
+            </if>
+            <if test="operationpersonid != null">
+                and operationPersonId = #{operationpersonid}
+            </if>
+            <if test="operationpersonname != null and operationpersonname != ''">
+                and operationPersonName = #{operationpersonname}
+            </if>
+            <if test="operationurl != null and operationurl != ''">
+                and operationUrl = #{operationurl}
+            </if>
+            <if test="operationip != null and operationip != ''">
+                and operationIp = #{operationip}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="errormsg != null and errormsg != ''">
+                and errorMsg = #{errormsg}
+            </if>
+            <if test="operationtime != null">
+                and operationTime = #{operationtime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into operlog(content,businessType,method,requestMethod,operationPersonId,operationPersonName,operationUrl,operationIp,status,errorMsg,operationTime)
+        values (#{content},#{businessType},#{method},#{requestMethod},#{operationPersonId},#{operationPersonName},#{operationUrl},#{operationIp},#{status},#{errorMsg},#{operationTime})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into operlog(content,businessType,method,requestMethod,operationPersonId,operationPersonName,operationUrl,operationIp,status,errorMsg,operationTime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.content}#{entity.businesstype}#{entity.method}#{entity.requestmethod}#{entity.operationpersonid}#{entity.operationpersonname}#{entity.operationurl}#{entity.operationip}#{entity.status}#{entity.errormsg}#{entity.operationtime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into operlog(content,businessType,method,requestMethod,operationPersonId,operationPersonName,operationUrl,operationIp,status,errorMsg,operationTime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.content}#{entity.businesstype}#{entity.method}#{entity.requestmethod}#{entity.operationpersonid}#{entity.operationpersonname}#{entity.operationurl}#{entity.operationip}#{entity.status}#{entity.errormsg}#{entity.operationtime})
+        </foreach>
+        on duplicate key update
+content = values(content)businessType = values(businessType)method = values(method)requestMethod = values(requestMethod)operationPersonId = values(operationPersonId)operationPersonName = values(operationPersonName)operationUrl = values(operationUrl)operationIp = values(operationIp)status = values(status)errorMsg = values(errorMsg)operationTime = values(operationTime)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update operlog
+        <set>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="businesstype != null">
+                businessType = #{businesstype},
+            </if>
+            <if test="method != null and method != ''">
+                method = #{method},
+            </if>
+            <if test="requestmethod != null and requestmethod != ''">
+                requestMethod = #{requestmethod},
+            </if>
+            <if test="operationpersonid != null">
+                operationPersonId = #{operationpersonid},
+            </if>
+            <if test="operationpersonname != null and operationpersonname != ''">
+                operationPersonName = #{operationpersonname},
+            </if>
+            <if test="operationurl != null and operationurl != ''">
+                operationUrl = #{operationurl},
+            </if>
+            <if test="operationip != null and operationip != ''">
+                operationIp = #{operationip},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="errormsg != null and errormsg != ''">
+                errorMsg = #{errormsg},
+            </if>
+            <if test="operationtime != null">
+                operationTime = #{operationtime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from operlog where id = #{id}
+    </delete>
+
+</mapper>
+
