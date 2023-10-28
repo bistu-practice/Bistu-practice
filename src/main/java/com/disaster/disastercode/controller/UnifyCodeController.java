@@ -3,6 +3,7 @@ package com.disaster.disastercode.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.disaster.disastercode.Annotation.LogAnnotation;
 import com.disaster.disastercode.DTO.CustomPageDTO;
 import com.disaster.disastercode.DTO.UploadUrlResponse;
 import com.disaster.disastercode.VO.DetailDisasterForm;
@@ -45,6 +46,7 @@ public class UnifyCodeController {
      * 解码,输入一个编码值，返回改变该编码的详细信息
      */
     @PostMapping("/decodeOne")
+    @LogAnnotation(businessType = 1,content = "解码")
     public BaseResponse<DetailDisasterForm> decodeOne(@RequestBody DecodeOneRequest decodeOneRequest) {
 
         UnifyCode unifyCode = new UnifyCode(decodeOneRequest.getCode(), decodeOneRequest.getDescription());

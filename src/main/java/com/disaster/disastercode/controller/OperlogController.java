@@ -1,17 +1,13 @@
 package com.disaster.disastercode.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.disaster.disastercode.Annotation.LogAnnotation;
 import com.disaster.disastercode.DTO.CustomPageDTO;
-import com.disaster.disastercode.VO.DetailDisasterForm;
-import com.disaster.disastercode.VO.OperLogLine;
 import com.disaster.disastercode.common.BaseResponse;
 import com.disaster.disastercode.common.ErrorCode;
 import com.disaster.disastercode.common.ResultUtils;
 import com.disaster.disastercode.exception.BusinessException;
-import com.disaster.disastercode.model.domain.DetailDisaster;
 import com.disaster.disastercode.model.domain.OperLog;
 import com.disaster.disastercode.service.OperlogService;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +30,6 @@ public class OperlogController {
     @Resource
     private OperlogService operlogService;
 
-    /**
-     * 分页查询
-     *
-     * @param operlog 筛选条件
-     * @param pageRequest      分页对象
-     * @return 查询结果
-     */
     @GetMapping
     @LogAnnotation(businessType = 1,content = "日志的分页查找")
     public BaseResponse<CustomPageDTO<OperLog>> queryByPage(@RequestParam(required = false) Integer pageIndex,
@@ -53,7 +42,6 @@ public class OperlogController {
         operationListWrapper.orderByDesc(OperLog::getOperationTime);
         Page<OperLog> operLogPage = new Page<>(pageIndex, pageSize);
         Page<OperLog> page = operlogService.page(operLogPage, operationListWrapper);
-//        IPage<OperLogLine> convertPage = page.convert(OperLog::formOperLogLine);
         return ResultUtils.page(page);
     }
 
