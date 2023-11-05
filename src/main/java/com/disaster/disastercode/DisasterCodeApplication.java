@@ -1,5 +1,6 @@
 package com.disaster.disastercode;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

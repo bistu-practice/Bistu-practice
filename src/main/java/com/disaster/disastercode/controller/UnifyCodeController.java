@@ -18,6 +18,8 @@ import com.disaster.disastercode.model.request.UploadUrlRequest;
 import com.disaster.disastercode.service.DetailDisasterService;
 import com.disaster.disastercode.service.OssService;
 import com.disaster.disastercode.service.UnifyCodeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +29,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/unifyCode")
+@Tag(name="统一编码控制器",description = "")
 public class UnifyCodeController {
     @Resource
     private UnifyCodeService unifyCodeService;
@@ -46,7 +49,8 @@ public class UnifyCodeController {
      * 解码,输入一个编码值，返回改变该编码的详细信息
      */
     @PostMapping("/decodeOne")
-    @LogAnnotation(businessType = 1,content = "解码")
+    @Operation(summary = "解码,输入一个编码值，返回改变该编码的详细信息")
+    @LogAnnotation(businessType = 1,content = "解码,输入一个编码值，返回改变该编码的详细信息")
     public BaseResponse<DetailDisasterForm> decodeOne(@RequestBody DecodeOneRequest decodeOneRequest) {
 
         UnifyCode unifyCode = new UnifyCode(decodeOneRequest.getCode(), decodeOneRequest.getDescription());
@@ -58,6 +62,8 @@ public class UnifyCodeController {
      * 将编码解码后插入一条详细文本灾情
      */
     @PutMapping("decodeOneInsert")
+    @Operation(summary = "将编码解码后插入一条详细文本灾情")
+    @LogAnnotation(businessType = 1,content = "将编码解码后插入一条详细文本灾情")
     public BaseResponse<Boolean> decodeOneInsert(@RequestBody DecodeOneRequest decodeOneRequest) {
         if (StringUtils.isAnyBlank(decodeOneRequest.getCode(), decodeOneRequest.getDescription())) {
             throw new BusinessException(ErrorCode.PARAMS_NULL_ERROR);
@@ -82,6 +88,8 @@ public class UnifyCodeController {
      * @return 是否成功
      */
     @PostMapping("/decodeOneWithFile")
+    @LogAnnotation(businessType = 1,content = "将多媒体灾情信息上传")
+    @Operation(summary = "将多媒体灾情信息上传")
     public BaseResponse<Boolean> decodeOneWithFile(@RequestBody(required = false) UploadUrlRequest uploadUrlRequest) {
         // 检查参数
         if (uploadUrlRequest == null)
@@ -111,6 +119,8 @@ public class UnifyCodeController {
      * @return
      */
     @PostMapping("insertByExcel")
+    @LogAnnotation(businessType = 1,content = "通过excel文件读入文本类型编码")
+    @Operation(summary = "通过excel文件读入文本类型编码")
     public BaseResponse<Boolean> insertByExcel(@RequestPart("file") MultipartFile file) {
         System.out.println(file);
         String contentType = file.getContentType();
@@ -132,6 +142,8 @@ public class UnifyCodeController {
      * @return
      */
     @GetMapping("/getInfo")
+    @LogAnnotation(businessType = 1,content = "分页获取灾情信息，按时间倒序")
+    @Operation(summary = "分页获取灾情信息，按时间倒序")
     public BaseResponse<CustomPageDTO<DetailDisasterForm>> getPagedDisasterInfo(
             @RequestParam(required = false) Integer pageIndex,
             @RequestParam(required = false) Integer pageSize) {
@@ -155,6 +167,8 @@ public class UnifyCodeController {
      * @return
      */
     @PostMapping("/getUploadUrl")
+    @LogAnnotation(businessType = 1,content = "输入文件名和编码，返回临时上传地址")
+    @Operation(summary = "输入文件名和编码，返回临时上传地址")
     public BaseResponse<UploadUrlResponse> getUploadUrl(@RequestBody(required = false) UploadUrlRequest uploadUrlRequest) {
         // 检查参数
         if (uploadUrlRequest == null)
@@ -167,6 +181,8 @@ public class UnifyCodeController {
      * 删除编码条目
      */
     @DeleteMapping("/deleteOneCode")
+    @LogAnnotation(businessType = 1,content = "删除编码条目")
+    @Operation(summary = "删除编码条目")
     public BaseResponse<Boolean> deleteOneCode(@RequestParam(required = false) String id) {
         if (StringUtils.isBlank(id))
             throw new BusinessException(ErrorCode.PARAMS_NULL_ERROR);
@@ -188,6 +204,8 @@ public class UnifyCodeController {
      * 获取临时get请求
      */
     @PostMapping("/getDownloadUrl")
+    @LogAnnotation(businessType = 1,content = "获取临时get下载请求")
+    @Operation(summary = "获取临时get下载请求")
     public BaseResponse<UploadUrlResponse> getDownloadUrl(@RequestBody(required = false) UploadUrlRequest uploadUrlRequest) {
         // 检查参数
         String fileName = uploadUrlRequest.getFileName();
@@ -201,6 +219,8 @@ public class UnifyCodeController {
      * 获得灾情统计数据
      */
     @GetMapping("/getStatistics")
+    @LogAnnotation(businessType = 1,content = "获得灾情统计数据")
+    @Operation(summary = "获得灾情统计数据")
     public BaseResponse<Map<String, Object>> getStatistics(@RequestParam(required = false) Integer month) {
         if (month == null) {
             month = 6;

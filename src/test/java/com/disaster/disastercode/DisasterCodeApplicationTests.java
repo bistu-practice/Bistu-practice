@@ -8,7 +8,9 @@ import com.disaster.disastercode.service.DetailDisasterService;
 import com.disaster.disastercode.service.OssService;
 import com.disaster.disastercode.service.UnifyCodeService;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.SpringBootVersion;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.SpringVersion;
 
 import javax.annotation.Resource;
 
@@ -47,6 +49,12 @@ class DisasterCodeApplicationTests {
     //@Test
     void testStatisticsData() {
         detailDisasterService.getStatisticsData(12);
+    }
+
+    @Test
+    void getVersion(){
+        System.out.println(SpringVersion.getVersion());
+        System.out.println(SpringBootVersion.getVersion());
     }
 
 }

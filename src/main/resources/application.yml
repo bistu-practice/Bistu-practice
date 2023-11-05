@@ -52,3 +52,9 @@ oss:
   accessKeySecret: DoQi2xSJdzEaa1izoL9n4ktCI0Lj3F
   bucketName: bistu-disaster
   filePrefix: content
+jimmer:
+  show-sql: true
+  pretty-sql: true
+  dialect: org.babyfish.jimmer.sql.dialect.MySqlDialect
+  database-validation-mode: none
+
