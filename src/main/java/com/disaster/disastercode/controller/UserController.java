@@ -10,6 +10,7 @@ import com.disaster.disastercode.exception.BusinessException;
 import com.disaster.disastercode.model.domain.User;
 import com.disaster.disastercode.model.request.UserRegisterRequest;
 import com.disaster.disastercode.service.UserService;
+import com.disaster.disastercode.utils.JWTUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,7 +47,7 @@ public class UserController {
     @PostMapping("/login")
     @LogAnnotation(businessType = 0,content = "用户登录")
     @Operation(summary = "用户登录")
-    public BaseResponse<String> userLogin(@RequestBody(required = false) UserRegisterRequest userRegisterRequest) {
+    public BaseResponse<String> userLogin(@RequestBody(required = false) UserRegisterRequest userRegisterRequest,HttpServletRequest request) {
         //1.检查整个输入参数
         if (userRegisterRequest == null)
             throw new BusinessException(ErrorCode.PARAMS_NULL_ERROR);
@@ -54,7 +55,7 @@ public class UserController {
         String userAccount = userRegisterRequest.getUserAccount();
         String userPassword = userRegisterRequest.getUserPassword();
         //3.调用service方法
-        String token = userService.userLogin(userAccount, userPassword);
+        String token = userService.userLogin(userAccount, userPassword,request);
         //4.处理返回格式
         return ResultUtils.success(token);
     }

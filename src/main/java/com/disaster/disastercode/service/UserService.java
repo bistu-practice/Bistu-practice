@@ -28,7 +28,7 @@ public interface UserService extends IService<User> {
      * @param userPassword 密码
      * @return token
      */
-    String userLogin(String userAccount, String userPassword);
+    String userLogin(String userAccount, String userPassword,HttpServletRequest request);
 
     /**
      * 获得登录的用户信息(包含组长组，成员组)

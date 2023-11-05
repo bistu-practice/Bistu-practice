@@ -64,7 +64,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public String userLogin(String userAccount, String userPassword) {
+    public String userLogin(String userAccount, String userPassword,HttpServletRequest request) {
         //1.检查参数
         UserCheckUtils.checkAccountAndPassword(userAccount, userPassword);
         //2.检查用户名密码匹配
@@ -75,8 +75,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         queryWrapper.eq(User::getUserPassword, encryptPassword);
         User user = this.getOne(queryWrapper);
         if (user == null) {
+
             throw new BusinessException(ErrorCode.LOGIN_FAIL, "用户名或密码错误");
         }
+        request.setAttribute(JWTUtils.currentUserKey,user);
         return JWTUtils.createToken(user.getId());
     }
 

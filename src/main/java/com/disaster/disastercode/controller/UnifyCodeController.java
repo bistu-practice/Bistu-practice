@@ -197,6 +197,7 @@ public class UnifyCodeController {
         // 阿里云oss删除
         String fileName = detailDisaster.getDescription();
         ossService.deleteFile(fileName);
+        detailDisasterService.removeById(id);
         return ResultUtils.success(true);
     }
 
