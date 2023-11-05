@@ -58,3 +58,4 @@ jimmer:
   dialect: org.babyfish.jimmer.sql.dialect.MySqlDialect
   database-validation-mode: none
 
+#ffff
