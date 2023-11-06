@@ -2,9 +2,12 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 这是一个MyBatis的Mapper文件，用于与数据库进行交互，并定义了一些SQL语句。 -->
 <mapper namespace="com.disaster.disastercode.mapper.UserMapper">
 
+        <!-- 定义了一个结果映射（resultMap），用于将数据库查询结果映射到具体的实体类（com.disaster.disastercode.model.domain.User）中的属性。 -->
     <resultMap id="BaseResultMap" type="com.disaster.disastercode.model.domain.User">
+            <!-- 定义了各个属性与数据库列的映射关系 -->
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="userAccount" column="userAccount" jdbcType="VARCHAR"/>
             <result property="userPassword" column="userPassword" jdbcType="VARCHAR"/>
@@ -13,7 +16,8 @@
             <result property="userJob" column="userJob" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
+<!-- 定义了一个SQL片段（sql），包含了User表中所有的列名。 -->
+     <sql id="Base_Column_List">
         id,userAccount,userPassword,
         userName,avatarUrl,userJob
     </sql>
