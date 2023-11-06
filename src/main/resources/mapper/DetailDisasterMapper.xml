@@ -2,9 +2,11 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 定义了命名空间 -->
 <mapper namespace="com.disaster.disastercode.mapper.DetailDisasterMapper">
 
-    <resultMap id="BaseResultMap" type="com.disaster.disastercode.model.domain.DetailDisaster">
+        <!-- 定义了一个结果映射 resultMap，用于映射到具体的实体类 --> 
+        <resultMap id="BaseResultMap" type="com.disaster.disastercode.model.domain.DetailDisaster">
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="province" column="province" jdbcType="VARCHAR"/>
             <result property="city" column="city" jdbcType="VARCHAR"/>
@@ -21,7 +23,8 @@
             <result property="disasterPoint" column="disasterPoint" jdbcType="VARCHAR"/>
             <result property="description" column="description" jdbcType="VARCHAR"/>
     </resultMap>
-
+ 
+        <!-- 定义了一个 SQL 片段，用于其他 SQL 语句的复用 -->
     <sql id="Base_Column_List">
         id,province,city,
         county,town,village,
@@ -29,6 +32,7 @@
         codeType,disasterMain,disasterSub,
         disasterType,disasterPoint,description
     </sql>
+        <!-- 定义了一个查询语句，通过属性 `id` 指定查询语句的唯一标识，`resultType` 指定返回结果的类型 --> 
     <select id="getMonthlyTimes" resultType="com.disaster.disastercode.DTO.MonthTime">
         SELECT YEAR
             ( occurTime ) AS 'year',
@@ -44,6 +48,7 @@
             MONTH ( occurTime ) DESC
             LIMIT #{limits};
     </select>
+        <!-- 定义了一个查询语句，通过属性 `id` 指定查询语句的唯一标识，`resultType` 指定返回结果的类型 -->
     <select id="getProvinceTimes" resultType="com.disaster.disastercode.DTO.ProvinceTime">
         SELECT
             province,
@@ -55,6 +60,7 @@
         ORDER BY
             count(*);
     </select>
+        <!-- 定义了一个查询语句，通过属性 `id` 指定查询语句的唯一标识，`resultType` 指定返回结果的类型 -->
     <select id="getCodeTypeTimes" resultType="com.disaster.disastercode.DTO.CodeTypeTime">
         SELECT
             codeType,
