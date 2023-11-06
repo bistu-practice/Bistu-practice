@@ -56,7 +56,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         user.setUserAccount(userAccount);
         user.setUserPassword(encryptPassword);
         user.setUserName(userName);
-
+        user.setAvatarUrl("https://bistu-disaster.oss-cn-beijing.aliyuncs.com/photo2.jpg");
         boolean rst = this.save(user);
         if (!rst)
             throw new BusinessException(ErrorCode.INNER_ERROR, "插入用户信息失败");
