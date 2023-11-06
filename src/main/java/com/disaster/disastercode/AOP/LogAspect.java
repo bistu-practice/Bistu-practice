@@ -15,6 +15,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -28,6 +29,7 @@ import java.util.Objects;
 @Slf4j
 @Aspect
 @Component
+@Order(1)
 public class LogAspect implements BeanFactoryAware {
     @Resource
     private BeanFactory beanFactory;

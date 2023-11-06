@@ -11,6 +11,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.annotation.Order;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -22,6 +24,7 @@ import java.util.concurrent.ConcurrentMap;
 
 @Aspect
 @Component
+@Order(2)
 public class LimitAspect {
 
     private static final ConcurrentMap<String, com.google.common.util.concurrent.RateLimiter> RATE_LIMITER_CACHE = new ConcurrentHashMap<>();
@@ -41,19 +44,29 @@ public class LimitAspect {
         Method method = signature.getMethod();
         // 通过 AnnotationUtils.findAnnotation 获取 RateLimiter 注解
         RateLimiter rateLimiter = AnnotationUtils.findAnnotation(method,RateLimiter.class);
+        System.out.println(method.getName()+IPUtils.getIpAddress(request));
         if (rateLimiter != null && rateLimiter.qps() > RateLimiter.NOT_LIMITED) {
             double qps = rateLimiter.qps();
             if (RATE_LIMITER_CACHE.get(method.getName()+IPUtils.getIpAddress(request)) == null) {
                 // 初始化 QPS
-                RATE_LIMITER_CACHE.put(method.getName(), com.google.common.util.concurrent.RateLimiter.create(qps));
+                RATE_LIMITER_CACHE
+                        .put(method.getName()+IPUtils.getIpAddress(request), com.google.common.util.concurrent
+                                .RateLimiter.create(qps));
             }
             // 尝试获取令牌
-            if (RATE_LIMITER_CACHE.get(method.getName()+IPUtils.getIpAddress(request)) != null && !RATE_LIMITER_CACHE.get(method.getName()+IPUtils.getIpAddress(request)).tryAcquire(rateLimiter.timeout(), rateLimiter.timeUnit())) {
+            if (RATE_LIMITER_CACHE
+                    .get(method.getName()+IPUtils.getIpAddress(request)) != null
+                    && !RATE_LIMITER_CACHE.get(method.getName()+IPUtils.getIpAddress(request))
+                    .tryAcquire(rateLimiter.timeout(), rateLimiter.timeUnit())) {
                 throw new BusinessException(ErrorCode.OUT_OF_SPEND);
             }
         }
         return point.proceed();
     }
-
+    @Scheduled(cron = "0 0 * * * *") // 每小时执行一次
+    private void cleanCache(){
+        RATE_LIMITER_CACHE.clear();
+        System.out.println("缓存已清空");
+    }
 
 }

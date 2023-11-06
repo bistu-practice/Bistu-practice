@@ -30,14 +30,14 @@ public class OperlogController {
      */
     @Resource
     private OperlogService operlogService;
-    @RateLimiter(value = 2, timeout = 100)
+    @RateLimiter(value = 0.3, timeout = 10)
     @GetMapping("/rateLimiter")
     public String rateLimiter() {
         return "你不能总是看到我，快速刷新我看一下！";
     }
     @GetMapping
     @LogAnnotation(businessType = 1,content = "日志的分页查找")
-    @RateLimiter(value = 2, timeout = 100)
+    @RateLimiter(value = 2, timeout = 50)
     public BaseResponse<CustomPageDTO<OperLog>> queryByPage(@RequestParam(required = false) Integer pageIndex,
                                                                 @RequestParam(required = false) Integer pageSize) {
         if (pageIndex == null || pageSize == null)
