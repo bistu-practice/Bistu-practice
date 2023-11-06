@@ -2,6 +2,7 @@ package com.disaster.disastercode.controller;
 
 
 import com.disaster.disastercode.Annotation.LogAnnotation;
+import com.disaster.disastercode.Annotation.RateLimiter;
 import com.disaster.disastercode.DTO.SafeUserDTO;
 import com.disaster.disastercode.common.BaseResponse;
 import com.disaster.disastercode.common.ErrorCode;
@@ -34,6 +35,7 @@ public class UserController {
     @PostMapping("/register")
     @LogAnnotation(businessType = 0,content = "用户注册")
     @Operation(summary = "用户注册")
+    @RateLimiter(value = 2, timeout = 100)
     public BaseResponse<Integer> userRegister(@RequestBody(required = false) UserRegisterRequest userRegisterRequest) {
         if (userRegisterRequest == null)
             throw new BusinessException(ErrorCode.PARAMS_NULL_ERROR);
@@ -47,6 +49,7 @@ public class UserController {
     @PostMapping("/login")
     @LogAnnotation(businessType = 0,content = "用户登录")
     @Operation(summary = "用户登录")
+    @RateLimiter(value = 5, timeout = 100)
     public BaseResponse<String> userLogin(@RequestBody(required = false) UserRegisterRequest userRegisterRequest,HttpServletRequest request) {
         //1.检查整个输入参数
         if (userRegisterRequest == null)
@@ -63,6 +66,7 @@ public class UserController {
     @GetMapping("/currentUser")
     @LogAnnotation(businessType = 0,content = "获取当前登录用户")
     @Operation(summary = "获取当前登录用户")
+    @RateLimiter(value = 10, timeout = 100)
     public BaseResponse<SafeUserDTO> getCurrentUser(HttpServletRequest request) {
         SafeUserDTO userWithProjectDTO = userService.getCurrentUser(request);
         return ResultUtils.success(userWithProjectDTO);
@@ -71,6 +75,7 @@ public class UserController {
     @PutMapping("/update")
     @LogAnnotation(businessType = 0,content = "更新用户信息")
     @Operation(summary = "更新用户信息")
+    @RateLimiter(value = 1, timeout = 100)
     public BaseResponse<Boolean> updateUserSelf(@RequestBody(required = false) User user, HttpServletRequest request) {
         if (user == null)
             throw new BusinessException(ErrorCode.PARAMS_NULL_ERROR);
@@ -83,6 +88,7 @@ public class UserController {
     @PostMapping("/changePwd")
     @LogAnnotation(businessType = 0,content = "用户变更密码")
     @Operation(summary = "用户变更密码")
+    @RateLimiter(value = 1, timeout = 100)
     public BaseResponse<Boolean> changeUserPwd(@RequestBody(required = false) UserRegisterRequest userRegisterRequest) {
         if (userRegisterRequest == null)
             throw new BusinessException(ErrorCode.PARAMS_NULL_ERROR);

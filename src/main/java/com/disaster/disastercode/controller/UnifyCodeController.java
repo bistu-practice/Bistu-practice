@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.disaster.disastercode.Annotation.LogAnnotation;
+import com.disaster.disastercode.Annotation.RateLimiter;
 import com.disaster.disastercode.DTO.CustomPageDTO;
 import com.disaster.disastercode.DTO.UploadUrlResponse;
 import com.disaster.disastercode.VO.DetailDisasterForm;
@@ -51,6 +52,7 @@ public class UnifyCodeController {
     @PostMapping("/decodeOne")
     @Operation(summary = "解码,输入一个编码值，返回改变该编码的详细信息")
     @LogAnnotation(businessType = 1,content = "解码,输入一个编码值，返回改变该编码的详细信息")
+    @RateLimiter(value = 3, timeout = 100)
     public BaseResponse<DetailDisasterForm> decodeOne(@RequestBody DecodeOneRequest decodeOneRequest) {
 
         UnifyCode unifyCode = new UnifyCode(decodeOneRequest.getCode(), decodeOneRequest.getDescription());
@@ -64,6 +66,7 @@ public class UnifyCodeController {
     @PutMapping("decodeOneInsert")
     @Operation(summary = "将编码解码后插入一条详细文本灾情")
     @LogAnnotation(businessType = 1,content = "将编码解码后插入一条详细文本灾情")
+    @RateLimiter(value = 3, timeout = 100)
     public BaseResponse<Boolean> decodeOneInsert(@RequestBody DecodeOneRequest decodeOneRequest) {
         if (StringUtils.isAnyBlank(decodeOneRequest.getCode(), decodeOneRequest.getDescription())) {
             throw new BusinessException(ErrorCode.PARAMS_NULL_ERROR);
@@ -90,6 +93,7 @@ public class UnifyCodeController {
     @PostMapping("/decodeOneWithFile")
     @LogAnnotation(businessType = 1,content = "将多媒体灾情信息上传")
     @Operation(summary = "将多媒体灾情信息上传")
+    @RateLimiter(value = 3, timeout = 100)
     public BaseResponse<Boolean> decodeOneWithFile(@RequestBody(required = false) UploadUrlRequest uploadUrlRequest) {
         // 检查参数
         if (uploadUrlRequest == null)
@@ -121,6 +125,7 @@ public class UnifyCodeController {
     @PostMapping("insertByExcel")
     @LogAnnotation(businessType = 1,content = "通过excel文件读入文本类型编码")
     @Operation(summary = "通过excel文件读入文本类型编码")
+    @RateLimiter(value = 3, timeout = 100)
     public BaseResponse<Boolean> insertByExcel(@RequestPart("file") MultipartFile file) {
         System.out.println(file);
         String contentType = file.getContentType();
@@ -144,6 +149,7 @@ public class UnifyCodeController {
     @GetMapping("/getInfo")
     @LogAnnotation(businessType = 1,content = "分页获取灾情信息，按时间倒序")
     @Operation(summary = "分页获取灾情信息，按时间倒序")
+    @RateLimiter(value = 5, timeout = 100)
     public BaseResponse<CustomPageDTO<DetailDisasterForm>> getPagedDisasterInfo(
             @RequestParam(required = false) Integer pageIndex,
             @RequestParam(required = false) Integer pageSize) {
@@ -169,6 +175,7 @@ public class UnifyCodeController {
     @PostMapping("/getUploadUrl")
     @LogAnnotation(businessType = 1,content = "输入文件名和编码，返回临时上传地址")
     @Operation(summary = "输入文件名和编码，返回临时上传地址")
+    @RateLimiter(value = 2, timeout = 100)
     public BaseResponse<UploadUrlResponse> getUploadUrl(@RequestBody(required = false) UploadUrlRequest uploadUrlRequest) {
         // 检查参数
         if (uploadUrlRequest == null)
@@ -183,6 +190,7 @@ public class UnifyCodeController {
     @DeleteMapping("/deleteOneCode")
     @LogAnnotation(businessType = 1,content = "删除编码条目")
     @Operation(summary = "删除编码条目")
+    @RateLimiter(value = 2, timeout = 100)
     public BaseResponse<Boolean> deleteOneCode(@RequestParam(required = false) String id) {
         if (StringUtils.isBlank(id))
             throw new BusinessException(ErrorCode.PARAMS_NULL_ERROR);
@@ -207,6 +215,7 @@ public class UnifyCodeController {
     @PostMapping("/getDownloadUrl")
     @LogAnnotation(businessType = 1,content = "获取临时get下载请求")
     @Operation(summary = "获取临时get下载请求")
+    @RateLimiter(value = 2, timeout = 100)
     public BaseResponse<UploadUrlResponse> getDownloadUrl(@RequestBody(required = false) UploadUrlRequest uploadUrlRequest) {
         // 检查参数
         String fileName = uploadUrlRequest.getFileName();
@@ -222,6 +231,7 @@ public class UnifyCodeController {
     @GetMapping("/getStatistics")
     @LogAnnotation(businessType = 1,content = "获得灾情统计数据")
     @Operation(summary = "获得灾情统计数据")
+    @RateLimiter(value = 2, timeout = 100)
     public BaseResponse<Map<String, Object>> getStatistics(@RequestParam(required = false) Integer month) {
         if (month == null) {
             month = 6;

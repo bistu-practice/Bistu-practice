@@ -3,6 +3,7 @@ package com.disaster.disastercode.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.disaster.disastercode.Annotation.LogAnnotation;
+import com.disaster.disastercode.Annotation.RateLimiter;
 import com.disaster.disastercode.DTO.CustomPageDTO;
 import com.disaster.disastercode.common.BaseResponse;
 import com.disaster.disastercode.common.ErrorCode;
@@ -29,9 +30,14 @@ public class OperlogController {
      */
     @Resource
     private OperlogService operlogService;
-
+    @RateLimiter(value = 2, timeout = 100)
+    @GetMapping("/rateLimiter")
+    public String rateLimiter() {
+        return "你不能总是看到我，快速刷新我看一下！";
+    }
     @GetMapping
     @LogAnnotation(businessType = 1,content = "日志的分页查找")
+    @RateLimiter(value = 2, timeout = 100)
     public BaseResponse<CustomPageDTO<OperLog>> queryByPage(@RequestParam(required = false) Integer pageIndex,
                                                                 @RequestParam(required = false) Integer pageSize) {
         if (pageIndex == null || pageSize == null)

@@ -16,7 +16,9 @@ public enum ErrorCode {
 
     INNER_ERROR(50000, "服务器内部错误"),
 
-    CODE_ERROR(60001, "编码格式错误");
+    CODE_ERROR(60001, "编码格式错误"),
+    OUT_OF_SPEND(70001,"访问超过接口限速");
+
     private final int code;
     private final String message;
 

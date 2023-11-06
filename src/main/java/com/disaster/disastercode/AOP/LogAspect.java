@@ -77,7 +77,7 @@ public class LogAspect implements BeanFactoryAware {
                 operLog.setErrorMsg("无异常");
                 if (e != null) {
                     operLog.setStatus(500);
-                    operLog.setErrorMsg(e.getMessage().substring(0, 2000));
+                    operLog.setErrorMsg(e.getMessage().substring(0, Math.min(2000, e.getMessage().length())));
                 }
                 operlogService.insert(operLog);
             }
