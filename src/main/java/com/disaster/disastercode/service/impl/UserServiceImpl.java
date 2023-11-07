@@ -29,7 +29,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         implements UserService{
 
 
-    private static final String SALT = "ymcymc";
+    private static final String SALT = "1z2x3c4v5b";
     @Resource
     private UserMapper userMapper;
 
