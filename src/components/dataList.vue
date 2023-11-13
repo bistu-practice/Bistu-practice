@@ -271,7 +271,7 @@ export default {
 
   .table-wrapper {
     //font-size: 0.625rem;
-    font-size: 10px;
+    font-size: 2.5rem;
   }
 
   .table {
