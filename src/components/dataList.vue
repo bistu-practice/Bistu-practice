@@ -270,7 +270,8 @@ export default {
   overflow: auto;
 
   .table-wrapper {
-    font-size: 0.625rem;
+    //font-size: 0.625rem;
+    font-size: 10px;
   }
 
   .table {
